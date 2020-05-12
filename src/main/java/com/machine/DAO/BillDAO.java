@@ -1,12 +1,11 @@
 package com.machine.DAO;
 
-import com.machine.DAO.AbstractDAO;
+import com.machine.exceptions.NotEnoughProductException;
 
 import java.sql.Connection;
-import java.util.List;
 
 public interface BillDAO<E> extends AbstractDAO<E> {
-    boolean addProductToBill(Long BillId, Long productId,double quantity,double measure,double price);
+    boolean addProductToBill(Long BillId, Long productId,double quantity,double measure,double price) throws NotEnoughProductException;
     boolean ifCancelled(Long key);
 
     Long create(Connection connection, E entity);

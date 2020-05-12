@@ -4,7 +4,7 @@ import com.machine.DAO.BillDAO;
 import com.machine.DAO.CashBoxDAO;
 import com.machine.DAO.DAOFactory;
 import com.machine.DAO.ProductDAO;
-import com.machine.models.DateTimeHelper;
+import com.machine.exceptions.NotEnoughProductException;
 import com.machine.models.bill.Bill;
 import com.machine.models.cashbox.CashBox;
 import com.machine.models.product.Product;
@@ -31,7 +31,7 @@ public class BillService {
         return billDAO.create(bill);
     }
 
-    public static boolean addProductToBillByName(Long billId, String productName, Double amount) {
+    public static boolean addProductToBillByName(Long billId, String productName, Double amount) throws NotEnoughProductException {
         double quantity = 0;
         double measure = 0;
         double price;
@@ -48,8 +48,8 @@ public class BillService {
         return billDAO.addProductToBill(billId, product.getProductId(), quantity, measure, price);
     }
 
-    public static boolean addProductToBillByCode(Long billId, Integer productCode, Double amount) {
-        double quantity = 0;
+    public static boolean addProductToBillByCode(Long billId, Integer productCode, Double amount) throws NotEnoughProductException {
+        double quantity = 0; //магія - не чіпати
         double measure = 0;
         double price;
         ProductDAO<Product> productDAO = DAOFactory.getProductDAO();
@@ -62,6 +62,7 @@ public class BillService {
             price = measure * product.getPricePerMeasureOrQuantity();
         }
         BillDAO<Bill> billDAO = DAOFactory.getBillDAO();
+        System.out.println(billId+" "+product.getProductId()+" "+quantity+" "+ measure+" "+ price);
         return billDAO.addProductToBill(billId, product.getProductId(), quantity, measure, price);
     }
 

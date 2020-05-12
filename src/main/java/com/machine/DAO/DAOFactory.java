@@ -1,6 +1,6 @@
 package com.machine.DAO;
 
-import com.machine.DAOImplementation.*;
+import com.machine.DAO.DAOImplementation.*;
 import com.machine.models.bill.Bill;
 import com.machine.models.cashbox.CashBox;
 import com.machine.models.product.Product;
