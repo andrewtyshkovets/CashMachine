@@ -36,5 +36,13 @@ public class CashBoxService {
         cashBox.setStartDateTime(dateTime);
         return  cashBoxDAO.create(cashBox);
     }
+    public static CashBox getByNumber(Integer number){
+        CashBoxDAO<CashBox> cashBoxDAO = DAOFactory.getCashBoxDAO();
+        return cashBoxDAO.getByNumber(number);
+    }
+    public static CashBox getById(Long number){
+        CashBoxDAO<CashBox> cashBoxDAO = DAOFactory.getCashBoxDAO();
+        return cashBoxDAO.getById(number);
+    }
 
 }

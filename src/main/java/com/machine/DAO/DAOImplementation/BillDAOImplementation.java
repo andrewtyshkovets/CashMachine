@@ -146,7 +146,7 @@ public class BillDAOImplementation implements BillDAO<Bill> {
     public Bill getById(Long key) {
         try (Connection connection = ConnectionPool.getConnection();
              PreparedStatement statement = connection
-                     .prepareStatement("SELECT * FROM bill_head INNER JOIN bill_body ON bill_head.bill_id = bill_body.bill_id WHERE bill_head.bill_id = ?")) {
+                     .prepareStatement("SELECT * FROM bill_head LEFT JOIN bill_body ON bill_head.bill_id = bill_body.bill_id WHERE bill_head.bill_id = ?")) {
             statement.setLong(1, key);
             ResultSet resultSet = statement.executeQuery();
             Bill bill = new Bill();

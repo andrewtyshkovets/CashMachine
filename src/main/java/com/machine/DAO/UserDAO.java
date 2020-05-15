@@ -8,5 +8,9 @@ import java.util.List;
 public interface UserDAO<E> extends AbstractDAO<E> {
     User findByLoginAndPassword(String login, String password);
 
+    boolean checkIfExist(String login);
+
     List<User> getAll(String where);
+
+    Integer getRoleId(String role);
 }

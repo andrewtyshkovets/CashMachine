@@ -1,12 +1,6 @@
 package com.machine;
 
-import com.machine.DAO.*;
-import com.machine.DAOImplementation.*;
-import com.machine.models.bill.Bill;
-import com.machine.models.cashbox.CashBox;
-import com.machine.models.product.Product;
-import com.machine.models.report.Report;
-import com.machine.models.user.User;
+import com.machine.exceptions.NotEnoughProductException;
 import com.machine.service.*;
 
 import javax.servlet.ServletException;
@@ -30,8 +24,9 @@ public class servlet1 extends HttpServlet {
         //CashBoxService.closeCashBoxSession(8L);
         //ProductServise.addProductToWarehouse(1234,"cola",5.0,null,15.0);
         //ProductServise.addProductToWarehouse(2222,"sugar",null,100.00,34.0);
-        /*
-        long session = CashBoxService.openCashBoxSession(2,4L,3000.0);
+
+        long session = CashBoxService.openCashBoxSession(2,4L,4000.0);
+
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -43,13 +38,21 @@ public class servlet1 extends HttpServlet {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        BillService.addProductToBillByCode(bill,1234,3.0);
+        try {
+            BillService.addProductToBillByCode(bill,1234,13.0);
+        } catch (NotEnoughProductException e) {
+            e.printStackTrace();
+        }
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        BillService.addProductToBillByName(bill,"sugar",30.0);
+        try {
+            BillService.addProductToBillByName(bill,"sugar",30.0);
+        } catch (NotEnoughProductException e) {
+            e.printStackTrace();
+        }
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -69,11 +72,11 @@ public class servlet1 extends HttpServlet {
         }
         CashBoxService.closeCashBoxSession(session);
 
-         */
-       // BillService.cancelBill(11L);
+
+        //BillService.cancelBill(11L);
         //ProductServise.setProductAmountOnWarehouseByCode(1234,10.0);
         //ProductServise.setProductAmountOnWarehouseByName("sugar",50.0);
-        User user = UserService.findUser("andrew","password");
-        System.out.println(user.getRole());
+        //User user = UserService.findUser("andrew","password");
+        //System.out.println(user.getRole());
     }
 }

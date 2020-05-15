@@ -161,4 +161,30 @@ public class CashBoxDAOImplementation implements CashBoxDAO<CashBox> {
         }
         return null;
     }
+
+    @Override
+    public CashBox getByNumber(Integer number){
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement("SELECT * FROM cashbox WHERE cashbox_number = ?")) {
+            statement.setLong(1, number);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                CashBox cashBox = new CashBox();
+                cashBox.setId(resultSet.getInt("cashbox_id"));
+                cashBox.setCashBoxNumber(resultSet.getInt("cashBox_number"));
+                cashBox.setCashierId(resultSet.getLong("user_id"));
+                cashBox.setStartMoney(resultSet.getDouble("start_money"));
+                cashBox.setStartDateTime(DateTimeHelper.StringToLocalDateTime(resultSet.getString("start_time")));
+                cashBox.setCurrentMoney(resultSet.getDouble("current_money"));
+                cashBox.setCurrentDateTime(DateTimeHelper.StringToLocalDateTime(resultSet.getString("calling_time")));
+                cashBox.setFinishMoney(resultSet.getDouble("end_money"));
+                cashBox.setFinishDateTime(DateTimeHelper.StringToLocalDateTime(resultSet.getString("end_time")));
+                return cashBox;
+            }
+        } catch (SQLException e) {
+            logger.error("Error while searching for cashBox", e);
+        }
+        return null;
+    }
 }

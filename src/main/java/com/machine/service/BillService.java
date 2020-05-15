@@ -28,7 +28,8 @@ public class BillService {
         bill.setTotalPrice(0);
         bill.setCancelled(false);
         BillDAO<Bill> billDAO = DAOFactory.getBillDAO();
-        return billDAO.create(bill);
+        Long billId = billDAO.create(bill);
+        return billId;
     }
 
     public static boolean addProductToBillByName(Long billId, String productName, Double amount) throws NotEnoughProductException {
@@ -62,7 +63,6 @@ public class BillService {
             price = measure * product.getPricePerMeasureOrQuantity();
         }
         BillDAO<Bill> billDAO = DAOFactory.getBillDAO();
-        System.out.println(billId+" "+product.getProductId()+" "+quantity+" "+ measure+" "+ price);
         return billDAO.addProductToBill(billId, product.getProductId(), quantity, measure, price);
     }
 

@@ -14,6 +14,14 @@ public class User implements Entity {
     public User() {
     }
 
+    public User(int userRoleId, String username, String password, String fullName, Role role) {
+        UserRoleId = userRoleId;
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.role = role;
+    }
+
     public User(long id) {
         this.id = id;
     }

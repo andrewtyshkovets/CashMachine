@@ -6,4 +6,6 @@ import com.machine.models.report.Report;
 
 public interface CashBoxDAO<E> extends AbstractDAO<E> {
     Long open(E entity);
+
+    CashBox getByNumber(Integer number);
 }

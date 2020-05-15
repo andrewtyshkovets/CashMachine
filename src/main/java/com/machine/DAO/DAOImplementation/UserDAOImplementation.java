@@ -42,7 +42,6 @@ public class UserDAOImplementation implements UserDAO<User> {
                 user.setUserRoleId(resultSet.getInt("user_role_id"));
                 user.setFullName(resultSet.getString("full_name"));
                 Role role = Role.valueOf(resultSet.getString("role_name"));
-                role.setId(resultSet.getInt("role_id"));
                 user.setRole(role);
                 return user;
             }
@@ -50,6 +49,22 @@ public class UserDAOImplementation implements UserDAO<User> {
             logger.error("Error while searching for user", e);
         }
         return null;
+    }
+
+    @Override
+    public boolean checkIfExist(String login){
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement("SELECT * FROM user WHERE username = ?")) {
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            logger.error("Error while searching for user", e);
+        }
+        return false;
     }
 
 
@@ -148,7 +163,6 @@ public class UserDAOImplementation implements UserDAO<User> {
                 user.setUserRoleId(resultSet.getInt("user_role_id"));
                 user.setFullName(resultSet.getString("full_name"));
                 Role role = Role.valueOf(resultSet.getString("role_name"));
-                role.setId(resultSet.getInt("role_id"));
                 user.setRole(role);
                 return user;
             }
@@ -156,5 +170,22 @@ public class UserDAOImplementation implements UserDAO<User> {
             logger.error("Error while searching for user", e);
         }
         return null;
+    }
+    @Override
+    public Integer getRoleId(String role){
+        Integer roleId = null;
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement("SELECT * FROM role WHERE role_name = ?")) {
+            statement.setString(1, role);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                roleId = resultSet.getInt("role_id");
+                return roleId;
+            }
+        } catch (SQLException e) {
+            logger.error("Error while searching for role", e);
+        }
+        return roleId;
     }
 }
